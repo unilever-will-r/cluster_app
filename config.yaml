@@ -1,0 +1,13 @@
+functionDir: "~/r_code/functions"
+categoryTag: "tnt"
+baseDir: "C:/Users/William.Roberts/Unilever/Target POG HUB - Documents/10 - TNT/3.10.2024 Transition"
+filesDir: "data_files"
+configsDir: "configs" # folder contained by filesDir
+pogsDir: "POGs"
+rawTieReportPath: "unclean_ties_6_23.csv"
+cleanTieReportPath: "clean_ties_latest.csv"
+cleanIndexReportPath: "clean_index_latest.csv"
+attributionDtPath: "C:/Users/William.Roberts/Unilever/Target POG HUB - Documents/00 - Automation & Reporting/PTIQ/Latest Master Attribution Workbook.xlsx"
+attributionTableSheetName: "TNT"
+productLibraryDsnDir: "C:/Users/William.Roberts/OneDrive - Unilever/Documents/"
+productLibraryDir: "C:/Users/William.Roberts/Desktop/performance_libraries"

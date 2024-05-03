@@ -1,0 +1,25 @@
+---
+title: "Show and tell meeting time results"
+output: html_notebook
+---
+
+```{r}
+rcv <- fread("rcv.csv")
+
+# Subset to the numeric columns
+numericColumns <- names(rcv)[sapply(rcv, FUN = is.numeric)]
+rcvVotes <- rcv[, ..numericColumns]
+
+# Some inputs were malformed -- rescale so that they all sum to 15
+rcvVotesRescaled <- (15 * rcvVotes / rowSums(rcvVotes))
+
+rcvVotesMelted <- melt(rcvVotesRescaled, measure.vars = names(rcvVotesRescaled))
+
+rcvVotesRanked <- rcvVotesMelted[, .(Score = sum(value),
+                                     `# Least_favorite` = sum(value == 1),
+                                     `# Most_favorite`  = sum(value == 5)),
+                                 by = .(`Time Slot` = variable)]
+rcvVotesRanked
+
+```
+
