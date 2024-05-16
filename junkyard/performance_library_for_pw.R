@@ -1,6 +1,32 @@
+buildPerfLib <- function(dt) {
+  
+  # layer 1: form-brand
+  # layer 2: brand
+  # layer 3: form
+  
+
+
+  pogItemSkeleton <- dt[, CJ(pog_id = unique(pog_id), item_id = unique(item_id))]
+  
+  outDt <- merge(pogItemSkeleton, dt, by = c("pog_id", "item_id"), all.x = TRUE)
+  outDt[, .form_brand_avg_units := mean(upspw, na.rm = T), by = .(item_form, item_brand, pog_id)]
+  outDt[, brand_avg_units := mean(upspw, na.rm = T), by = .(item_form, item_brand, pog_id)]
+  outDt[, form_avg_units := mean(upspw, na.rm = T), by = .(item_form, pog_id)]
+  outDt[, form_global_avg_units := mean(upspw, na.rm = T), by = .(item_form)]
+  
+  # perfLibForOutput <- pogItemSalesDt[, .(`Planogram Alias` = pogId,
+  #                                        `Nbr Locations` = total_stores,
+  #                                        ID = itemnumber,
+  #                                        `Value 39` = usw * 52,
+  #                                        `Value 38` = dsw * 52,
+  #                                        `Nbr Weeks` = 52,
+  #                                        `Unit Movement` = usw,
+  #                                        `Value 40` = dsw)]
+}
+
 
 if (FALSE) {
-  # ICE CREAM PERFORMANCE LIBRARY STEP-BY-STEP
+  # PERFORMANCE LIBRARY STEP-BY-STEP
   rm(list = ls(all.names = TRUE)); gc();
   setwd("~/r_code")
   source("00_initialize.R")
@@ -11,9 +37,9 @@ if (FALSE) {
   # STEP 1: Get the historical ties from DOMO
   # histTies is from Historical Ties Report
   # lists all POGs with set date less than current date
-  icRawHistTiesDt  <- rbind(fread("C:/Users/William.Roberts/Unilever/Target POG HUB - Documents/06 - Ice Cream/2024/04.28 April Transvision/03 - Tie Reports/ic_hist_ties_pulled_10_31_2023.csv"),
+  rawHistTiesDt  <- rbind(fread("C:/Users/William.Roberts/Unilever/Target POG HUB - Documents/06 - Ice Cream/2024/04.28 April Transvision/03 - Tie Reports/ic_hist_ties_pulled_10_31_2023.csv"),
                             fread("C:/Users/William.Roberts/Unilever/Target POG HUB - Documents/06 - Ice Cream/2024/04.28 April Transvision/03 - Tie Reports/ic_hist_ties_2022.csv"))
-  storeItemHistDt <- cleanHistTiesDt(cleanNames(icRawHistTiesDt))
+  storeItemHistDt <- cleanHistTiesDt(cleanNames(rawHistTiesDt))
   
   # STEP 2: Get the current POGs'
   # currStorePog: Category Tie Report for the POGs currently set in stores

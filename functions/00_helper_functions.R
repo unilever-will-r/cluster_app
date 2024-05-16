@@ -2,6 +2,32 @@ library(data.table)
 library(magrittr)
 
 
+dateToWeekKey <- function(date) {
+  # Converts a date into a weekKey
+  # weekKey corresponds to weeks that begin on sunday and end on saturday
+  
+  initialKey     <- 1325
+  initialEndDate <- as.Date("2021-03-27") # A saturday
+  
+  numDays <- as.numeric(difftime(date, initialEndDate, units = "days"))
+  weekKey <- initialKey + ceiling(numDays / 7)
+  
+  return(weekKey)
+}
+
+weekKeyToDate <- function(weekKey, format = "%Y-%m-%d") {
+  # Converts a weekKey into a date
+  # weekKey corresponds to weeks that begin on sunday and end on monday
+  
+  initialKey     <- 1325
+  initialEndDate <- as.Date("2021-03-27") # A saturday
+  
+  numWeeks <- weekKey - initialKey
+  date <- initialEndDate + numWeeks * 7
+  
+  return(format(date, format = format))
+}
+
 
 clipToPath <- function(path = "clipboard") {
   y <- if (path == "clipboard") {
